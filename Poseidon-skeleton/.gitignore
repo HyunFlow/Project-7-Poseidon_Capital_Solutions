@@ -1,0 +1,16 @@
+# Environment
+.env
+src/.env
+
+# IntelliJ / IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Build outputs
+target/
+out/
+
+# OS
+.DS_Store

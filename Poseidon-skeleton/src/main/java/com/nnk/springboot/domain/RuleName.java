@@ -1,11 +1,36 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
+@Data
 @Entity
-@Table(name = "rulename")
+@Table(name = "Rulename")
 public class RuleName {
-    // TODO: Map columns in data table RULENAME with corresponding java fields
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
+    Integer id;
+
+
+    @Column(name = "name")
+    String name;
+    @Column(name = "description")
+    String description;
+    @Column(name = "json")
+    String json;
+    @Column(name = "template")
+    String template;
+    @Column(name = "sqlStr")
+    String sqlStr;
+    @Column(name = "sqlPart")
+    String sqlPart;
 }
