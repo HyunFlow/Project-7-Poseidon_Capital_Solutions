@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PCS Investment</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" >
+</head>
+<body>
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+  <div class="container">
+    <div class="row"><h2>Login</h2></div>
+    <div class="row">
+      <form th:action="@{/app/perform-login}" th:object="${user}" method="post" class="form-horizontal" style="width: 100%">
+        <div class="form-group">
+          <label for="username" class="col-sm-2 control-label">User Name</label>
+          <div class="col-sm-10">
+            <input type="text" name="username" id="username" placeholder="User Name" class="col-4">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="col-sm-2 control-label">Password</label>
+          <div class="col-sm-10">
+            <input type="password" name="password" id="password" placeholder="Password" class="col-4">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <button type="submit">Login</button>
+          </div>
+        </div>
+        <div th:if="${param.error}" class="col-sm-10">
+          <p class="text-danger">Invalid username or password</p>
+        </div>
+        <div th:if="${param.logout}">
+          <p class="text-success">You have been logged out.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,64 +1,92 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.BidAddRequest;
+import com.nnk.springboot.dto.BidUpdateRequest;
+import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.services.BidListService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/bidList")
 public class BidListController {
 
     private final BidListService bidListService;
+    private final UserRepository userRepository;
 
-    @RequestMapping("/bidList/list")
-    public String home(Model model) {
+    @GetMapping("/list")
+    public String home(Authentication auth, Model model) {
         // TODO: call service find all bids to show to the view
+        String username = auth.getName();
+        if(userRepository.findByUsername(username).isPresent()){
+            model.addAttribute("username", username);
+        }
+        model.addAttribute("bids", bidListService.loadAllBidList());
+        model.addAttribute("remoteUser", auth.getName());
+
         return "bidList/list";
     }
 
-    @GetMapping("/bidList/add")
-    public String addBidForm(BidAddRequest bidList) {
+    @GetMapping("/add")
+    public String addBidForm(Model model) {
+        model.addAttribute("bid", new BidAddRequest());
         return "bidList/add";
     }
 
-    @PostMapping("/bidList/validate")
-    public String validate(@Valid BidAddRequest bidList, BindingResult result, Model model) {
+    @PostMapping("/validate")
+    public String validate(@Valid @ModelAttribute("bid") BidAddRequest request, BindingResult result) {
 
         if (result.hasErrors()) {
             return "bidList/add";
         }
 
-        bidListService.addBid(bidList);
-
+        try{
+            bidListService.createBid(request);
+        } catch(IllegalArgumentException e){
+            String msg = e.getMessage();
+            if(msg != null && msg.contains("must be positive")) {
+                result.rejectValue("bidQuantity", "bidQuantity.negative", msg);
+            }
+            return "bidList/add";
+        }
         return "redirect:/bidList/list";
     }
 
-    @GetMapping("/bidList/update/{id}")
+    @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Bid by Id and to model then show to the form
+        model.addAttribute("bid", bidListService.loadForUpdate(id));
         return "bidList/update";
     }
 
-    @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
-        BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Bid and return list Bid
+    @PostMapping("/update/{id}")
+    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("bid") BidUpdateRequest request,
+        BindingResult result) {
+        if (result.hasErrors()) {
+            return "bidList/update";
+        }
+
+        bidListService.updateBid(id, request);
+
         return "redirect:/bidList/list";
     }
 
-    @GetMapping("/bidList/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Bid by Id and delete the bid, return to Bid list
+    @GetMapping("/delete/{id}")
+    public String deleteBid(@PathVariable("id") Integer id) {
+        bidListService.deleteBid(id);
         return "redirect:/bidList/list";
     }
 }

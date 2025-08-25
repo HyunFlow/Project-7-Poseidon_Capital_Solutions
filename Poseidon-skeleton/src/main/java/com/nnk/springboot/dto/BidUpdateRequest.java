@@ -11,7 +11,10 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class BidAddRequest {
+public class BidUpdateRequest {
+
+    @NotNull
+    private Integer bidListId;
 
     @NotBlank(message = "Account is mandatory")
     private String account;
@@ -21,7 +24,6 @@ public class BidAddRequest {
 
     @PositiveOrZero
     @Digits(integer = 6, fraction = 1)
-    @NotNull
-    private Double bidQuantity;
 
+    private Double bidQuantity;
 }
