@@ -1,6 +1,7 @@
-DROP DATABASE IF EXISTS demo;
-CREATE DATABASE demo;
-USE demo;
+-- DROP DATABASE IF EXISTS demo;
+--
+-- CREATE DATABASE demo;
+-- USE demo;
 
 DROP TABLE IF EXISTS BidList;
 DROP TABLE IF EXISTS Trade;
@@ -12,7 +13,7 @@ DROP TABLE IF EXISTS Users;
 
 CREATE TABLE BidList
 (
-    BidListId    tinyint(4)  NOT NULL AUTO_INCREMENT,
+    BidListId    INTEGER NOT NULL AUTO_INCREMENT,
     account      VARCHAR(30) NOT NULL,
     type         VARCHAR(30) NOT NULL,
     bidQuantity  DOUBLE,
@@ -40,7 +41,7 @@ CREATE TABLE BidList
 
 CREATE TABLE IF NOT EXISTS Trade
 (
-    TradeId      tinyint(4)  NOT NULL AUTO_INCREMENT,
+    TradeId      INTEGER  NOT NULL AUTO_INCREMENT,
     account      VARCHAR(30) NOT NULL,
     type         VARCHAR(30) NOT NULL,
     buyQuantity  DOUBLE,
@@ -67,11 +68,11 @@ CREATE TABLE IF NOT EXISTS Trade
 
 CREATE TABLE IF NOT EXISTS CurvePoint
 (
-    Id           tinyint(4) NOT NULL AUTO_INCREMENT,
-    CurveId      tinyint,
+    Id           INTEGER NOT NULL AUTO_INCREMENT,
+    CurveId      INTEGER,
     asOfDate     TIMESTAMP,
     term         DOUBLE,
-    value        DOUBLE,
+    value_       DOUBLE,
     creationDate TIMESTAMP,
 
     PRIMARY KEY (Id)
@@ -79,18 +80,18 @@ CREATE TABLE IF NOT EXISTS CurvePoint
 
 CREATE TABLE IF NOT EXISTS Rating
 (
-    Id           tinyint(4) NOT NULL AUTO_INCREMENT,
+    Id           INTEGER NOT NULL AUTO_INCREMENT,
     moodysRating VARCHAR(125),
     sandPRating  VARCHAR(125),
     fitchRating  VARCHAR(125),
-    orderNumber  tinyint,
+    orderNumber  INTEGER,
 
     PRIMARY KEY (Id)
 );
 
 CREATE TABLE IF NOT EXISTS RuleName
 (
-    Id          tinyint(4) NOT NULL AUTO_INCREMENT,
+    Id          INTEGER NOT NULL AUTO_INCREMENT,
     name        VARCHAR(125),
     description VARCHAR(125),
     json        VARCHAR(125),
@@ -103,7 +104,7 @@ CREATE TABLE IF NOT EXISTS RuleName
 
 CREATE TABLE IF NOT EXISTS Users
 (
-    Id       tinyint(4) NOT NULL AUTO_INCREMENT,
+    Id       INTEGER NOT NULL AUTO_INCREMENT,
     username VARCHAR(125),
     password VARCHAR(125),
     fullname VARCHAR(125),
@@ -111,9 +112,3 @@ CREATE TABLE IF NOT EXISTS Users
 
     PRIMARY KEY (Id)
 );
-
-insert into Users(fullname, username, password, role)
-values ("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa",
-        "ADMIN");
-insert into Users(fullname, username, password, role)
-values ("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
