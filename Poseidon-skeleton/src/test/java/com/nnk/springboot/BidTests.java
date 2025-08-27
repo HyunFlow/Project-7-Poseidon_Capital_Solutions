@@ -1,50 +1,54 @@
 package com.nnk.springboot;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.ActiveProfiles;
+
 
 import java.util.List;
 import java.util.Optional;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ActiveProfiles("test")
 public class BidTests {
 
 	@Autowired
 	private BidListRepository bidListRepository;
-	private Assertions Assert;
 
 	@Test
 	public void bidListTest() {
 		BidList bid = new BidList();
 		bid.setAccount("Account Test");
 		bid.setType("Type Test");
-		bid.setBid(10d);
+		bid.setBidQuantity(10d);
 
 		// Save
-		bid = bidListRepository.save(bid);
-		Assert.assertNotNull(bid.getBidListId());
-		Assert.assertEquals(bid.getBidQuantity(), 10d, 10d);
+		bid = bidListRepository.saveAndFlush(bid);
+		assertNotNull(bid.getBidListId());
+		assertEquals(10d, bid.getBidQuantity(), 0.0001);
 
 		// Update
 		bid.setBidQuantity(20d);
-		bid = bidListRepository.save(bid);
-		Assert.assertEquals(bid.getBidQuantity(), 20d, 20d);
+		bid = bidListRepository.saveAndFlush(bid);
+		assertEquals(20d, bid.getBidQuantity(), 0.0001);
 
 		// Find
 		List<BidList> listResult = bidListRepository.findAll();
-		Assert.assertTrue(listResult.size() > 0);
+		assertTrue(listResult.size() > 0);
 
 		// Delete
 		Integer id = bid.getBidListId();
 		bidListRepository.delete(bid);
 		Optional<BidList> bidList = bidListRepository.findById(id);
-		Assert.assertFalse(bidList.isPresent());
+		assertFalse(bidList.isPresent());
 	}
 }
