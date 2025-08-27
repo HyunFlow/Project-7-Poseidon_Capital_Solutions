@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/add")
-    public String addUser(User bid) {
+    public String addUser(User user) {
         return "user/add";
     }
 
