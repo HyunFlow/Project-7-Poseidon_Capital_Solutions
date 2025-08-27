@@ -17,9 +17,9 @@ public class CurvePointDto {
     @NotNull(message = "must not be null")
     private Integer curveId;
 
-    @Digits(integer = 6, fraction = 1)
+    @Digits(integer = 6, fraction = 1, message = "must be a numeric value and at most 1 decimal place.")
     private Double term;
 
-    @Digits(integer = 6, fraction = 1)
+    @Digits(integer = 6, fraction = 1, message = "must be a numeric value and at most 1 decimal place.")
     private Double value;
 }
