@@ -20,11 +20,11 @@ public class Rating {
     @Column(name = "Id", nullable = false)
     private Integer id;
 
-    @Column(name = "moodysRating")
+    @Column(name = "moodysRating", length = 125)
     private String moodysRating;
-    @Column(name = "sandPRating")
+    @Column(name = "sandPRating", length = 125)
     private String sandPRating;
-    @Column(name = "fitchRating")
+    @Column(name = "fitchRating", length = 125)
     private String fitchRating;
     @Column(name = "orderNumber")
     private Integer orderNumber;

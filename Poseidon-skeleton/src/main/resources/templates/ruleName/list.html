@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="utf-8"/>
 <title>Home</title>
@@ -12,14 +13,15 @@
 		<div class="col-6">
 			<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
 			<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
-			<a href="/ruleName/list">ruleNames</a>&nbsp;|&nbsp;
+			<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
 			<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
 			<a href="/ruleName/list">Rule</a>
 		</div>
 		<div class="col-6 text-right">
-			Logged in user: <b th:inline="text"  class="user"> [[${#httpServletRequest.remoteUser}]] </b>
-			<form th:action="@{/app-logout}" method="POST">
-				<input type="submit" value="Logout"/>
+			Logged in user: <b sec:authentication="name"></b>
+			<form sec:authorize="isAuthenticated()"
+						th:action="@{/logout}" method="POST">
+				<button type="submit" class="btn btn-link p-0 align-baseline">Logout</button>
 			</form>
 		</div>
 	</div>
@@ -46,7 +48,7 @@
 					<td th:text="${ruleName.description}"></td>
 					<td th:text="${ruleName.json}"></td>
 					<td th:text="${ruleName.template}"></td>
-					<td th:text="${ruleName.sql}"></td>
+					<td th:text="${ruleName.sqlStr}"></td>
 					<td th:text="${ruleName.sqlPart}"></td>
 					<td style="width: 15%" class="text-center">
 						<a th:href="@{/ruleName/update/{id}(id=${ruleName.id})}">Edit</a>&nbsp;|&nbsp;

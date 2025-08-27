@@ -21,16 +21,16 @@ public class RuleName {
     private Integer id;
 
 
-    @Column(name = "name")
+    @Column(name = "name", length = 125)
     private String name;
-    @Column(name = "description")
+    @Column(name = "description", length = 125)
     private String description;
-    @Column(name = "json")
+    @Column(name = "json", length = 125)
     private String json;
-    @Column(name = "template")
+    @Column(name = "template", length = 512)
     private String template;
-    @Column(name = "sqlStr")
+    @Column(name = "sqlStr", length = 125)
     private String sqlStr;
-    @Column(name = "sqlPart")
+    @Column(name = "sqlPart", length = 125)
     private String sqlPart;
 }

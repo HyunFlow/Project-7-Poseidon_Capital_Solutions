@@ -15,32 +15,23 @@ public class BidListService {
     final private BidListRepository bidListRepository;
 
     @Transactional
-    public void createBid(BidListDto req) {
-
-        String reqAccount = req.getAccount();
-        String reqType = req.getType();
-        Double reqBidQty = req.getBidQuantity();
-
-        if (reqBidQty == null || reqBidQty < 0) {
-            throw new IllegalArgumentException("bid quantity must be positive");
-        }
-
+    public void createBid(BidListDto request) {
         BidList newBid = new BidList();
-        newBid.setAccount(reqAccount);
-        newBid.setType(reqType);
-        newBid.setBidQuantity(reqBidQty);
+        newBid.setAccount(request.getAccount());
+        newBid.setType(request.getType());
+        newBid.setBidQuantity(request.getBidQuantity());
 
         bidListRepository.save(newBid);
     }
 
     @Transactional
-    public void updateBid(Integer bidListId, BidListDto req) {
+    public void updateBid(Integer bidListId, BidListDto request) {
         BidList currentBid = bidListRepository.findById(bidListId)
             .orElseThrow(() -> new IllegalArgumentException("bid not found"));
 
-        currentBid.setAccount(req.getAccount());
-        currentBid.setType(req.getType());
-        currentBid.setBidQuantity(req.getBidQuantity());
+        currentBid.setAccount(request.getAccount());
+        currentBid.setType(request.getType());
+        currentBid.setBidQuantity(request.getBidQuantity());
 
         bidListRepository.save(currentBid);
     }
@@ -53,30 +44,25 @@ public class BidListService {
         bidListRepository.deleteById(bidListId);
     }
 
-    public BidListDto loadForUpdate(Integer bidListId) {
+    public BidListDto loadBidById(Integer bidListId) {
         BidList currentBid = bidListRepository.findById(bidListId)
             .orElseThrow(() -> new IllegalArgumentException("bid not found"));
 
-        BidListDto dto = new BidListDto();
-        dto.setBidListId(currentBid.getBidListId());
-        dto.setAccount(currentBid.getAccount());
-        dto.setType(currentBid.getType());
-        dto.setBidQuantity(currentBid.getBidQuantity());
-
-        return dto;
+        return getBidListDto(currentBid);
     }
 
     public List<BidListDto> loadAllBidList() {
         return bidListRepository.findAll().stream()
-            .map(bid -> {
-                BidListDto dto = new BidListDto();
-                dto.setBidListId(bid.getBidListId());
-                dto.setAccount(bid.getAccount());
-                dto.setType(bid.getType());
-                dto.setBidQuantity(bid.getBidQuantity());
-                return dto;
-            })
-            .toList();
+            .map(this::getBidListDto).toList();
+    }
+
+    private BidListDto getBidListDto(BidList currentBidList) {
+        BidListDto dto = new BidListDto();
+        dto.setBidListId(currentBidList.getBidListId());
+        dto.setAccount(currentBidList.getAccount());
+        dto.setType(currentBidList.getType());
+        dto.setBidQuantity(currentBidList.getBidQuantity());
+        return dto;
     }
 
 }

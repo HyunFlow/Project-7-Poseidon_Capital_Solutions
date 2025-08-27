@@ -20,7 +20,7 @@
     <div class="col-6 text-right">
       Logged in user: <b sec:authentication="name"></b>
       <form sec:authorize="isAuthenticated()"
-            th:action="@{/logout}" method="POST" class="d-inline m-0 p-0">
+            th:action="@{/logout}" method="POST">
         <button type="submit" class="btn btn-link p-0 align-baseline">Logout</button>
       </form>
     </div>

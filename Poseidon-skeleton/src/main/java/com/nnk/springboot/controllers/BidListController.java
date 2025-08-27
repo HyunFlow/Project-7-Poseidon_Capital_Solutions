@@ -42,22 +42,13 @@ public class BidListController {
         if (result.hasErrors()) {
             return "bidList/add";
         }
-
-        try{
-            bidListService.createBid(request);
-        } catch(IllegalArgumentException e){
-            String msg = e.getMessage();
-            if(msg != null && msg.contains("must be positive")) {
-                result.rejectValue("bidQuantity", "bidQuantity.negative", msg);
-            }
-            return "bidList/add";
-        }
+        bidListService.createBid(request);
         return "redirect:/bidList/list";
     }
 
     @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("bid", bidListService.loadForUpdate(id));
+        model.addAttribute("bid", bidListService.loadBidById(id));
         return "bidList/update";
     }
 
@@ -67,9 +58,7 @@ public class BidListController {
         if (result.hasErrors()) {
             return "bidList/update";
         }
-
         bidListService.updateBid(id, request);
-
         return "redirect:/bidList/list";
     }
 

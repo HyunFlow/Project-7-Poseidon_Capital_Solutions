@@ -22,7 +22,7 @@ public class CurvePoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "Id", nullable = false)
     private Integer id;
 
     @Column(name = "CurveId", nullable = false)

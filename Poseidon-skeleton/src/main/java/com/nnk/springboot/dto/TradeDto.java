@@ -2,29 +2,22 @@ package com.nnk.springboot.dto;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BidListDto {
+public class TradeDto {
 
-    private Integer bidListId;
-
+    private Integer tradeId;
     @NotBlank(message = "Account is mandatory")
-    @Size(max = 30)
     private String account;
-
     @NotBlank(message = "Type is mandatory")
-    @Size(max = 30)
     private String type;
-
     @PositiveOrZero
     @Digits(integer = 6, fraction = 1)
-    @NotNull
-    private Double bidQuantity;
-
+    private Double buyQuantity;
 }
