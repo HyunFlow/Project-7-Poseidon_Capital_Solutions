@@ -8,10 +8,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails {
 
+public class CustomUserDetails implements UserDetails {
     private final User user;
+
+    public CustomUserDetails(User user) {
+        this.user = user;
+    }
 
     public Integer getId() {
         return user.getId();

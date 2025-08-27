@@ -18,14 +18,14 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
-    Integer id;
+    private Integer id;
 
     @Column(name = "moodysRating")
-    String moodysRating;
+    private String moodysRating;
     @Column(name = "sandPRating")
-    String sandPRating;
+    private String sandPRating;
     @Column(name = "fitchRating")
-    String fitchRating;
+    private String fitchRating;
     @Column(name = "orderNumber")
-    Integer orderNumber;
+    private Integer orderNumber;
 }

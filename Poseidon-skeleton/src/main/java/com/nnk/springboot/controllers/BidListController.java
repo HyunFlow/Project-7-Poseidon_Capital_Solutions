@@ -1,14 +1,9 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.dto.BidAddRequest;
-import com.nnk.springboot.dto.BidUpdateRequest;
-import com.nnk.springboot.repositories.UserRepository;
+import com.nnk.springboot.dto.BidListDto;
 import com.nnk.springboot.services.BidListService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,29 +21,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BidListController {
 
     private final BidListService bidListService;
-    private final UserRepository userRepository;
 
     @GetMapping("/list")
-    public String home(Authentication auth, Model model) {
+    public String home(Model model) {
         // TODO: call service find all bids to show to the view
-        String username = auth.getName();
-        if(userRepository.findByUsername(username).isPresent()){
-            model.addAttribute("username", username);
-        }
         model.addAttribute("bids", bidListService.loadAllBidList());
-        model.addAttribute("remoteUser", auth.getName());
 
         return "bidList/list";
     }
 
     @GetMapping("/add")
     public String addBidForm(Model model) {
-        model.addAttribute("bid", new BidAddRequest());
+        model.addAttribute("bid", new BidListDto());
         return "bidList/add";
     }
 
     @PostMapping("/validate")
-    public String validate(@Valid @ModelAttribute("bid") BidAddRequest request, BindingResult result) {
+    public String validate(@Valid @ModelAttribute("bid") BidListDto request, BindingResult result) {
 
         if (result.hasErrors()) {
             return "bidList/add";
@@ -73,7 +62,7 @@ public class BidListController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("bid") BidUpdateRequest request,
+    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("bid") BidListDto request,
         BindingResult result) {
         if (result.hasErrors()) {
             return "bidList/update";

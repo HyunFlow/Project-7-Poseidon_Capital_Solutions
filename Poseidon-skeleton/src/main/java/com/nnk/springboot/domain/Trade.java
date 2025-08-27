@@ -20,48 +20,48 @@ public class Trade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TradeId", nullable = false)
-    Integer tradeId;
+    private Integer tradeId;
 
     @Column(name = "account", nullable = false)
-    String account;
+    private String account;
 
     @Column(name = "type", nullable = false)
-    String type;
+    private String type;
     @Column(name = "buyQuantity")
-    Double buyQuantity;
+    private Double buyQuantity;
     @Column(name = "sellQuantity")
-    Double sellQuantity;
+    private Double sellQuantity;
     @Column(name = "buyPrice")
-    Double buyPrice;
+    private Double buyPrice;
     @Column(name = "sellPrice")
-    Double sellPrice;
+    private Double sellPrice;
 
     @Column(name = "benchmark")
-    String benchmark;
+    private String benchmark;
     @Column(name = "tradeDate")
-    Timestamp tradeDate;
+    private Timestamp tradeDate;
     @Column(name = "security")
-    String security;
+    private String security;
     @Column(name = "status")
-    String status;
+    private String status;
     @Column(name = "trader")
-    String trader;
+    private String trader;
     @Column(name = "book")
-    String book;
+    private String book;
     @Column(name = "creationName")
-    String creationName;
+    private String creationName;
     @Column(name = "creationDate")
-    Timestamp creationDate;
+    private Timestamp creationDate;
     @Column(name = "revisionName")
-    String revisionName;
+    private String revisionName;
     @Column(name = "revisionDate")
-    Timestamp revisionDate;
+    private Timestamp revisionDate;
     @Column(name = "dealName")
-    String dealName;
+    private String dealName;
     @Column(name = "dealType")
-    String dealType;
+    private String dealType;
     @Column(name = "sourceListId")
-    String sourceListId;
+    private String sourceListId;
     @Column(name = "side")
-    String side;
+    private String side;
 }

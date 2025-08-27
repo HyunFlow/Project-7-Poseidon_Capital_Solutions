@@ -18,19 +18,19 @@ public class RuleName {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
-    Integer id;
+    private Integer id;
 
 
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "description")
-    String description;
+    private String description;
     @Column(name = "json")
-    String json;
+    private String json;
     @Column(name = "template")
-    String template;
+    private String template;
     @Column(name = "sqlStr")
-    String sqlStr;
+    private String sqlStr;
     @Column(name = "sqlPart")
-    String sqlPart;
+    private String sqlPart;
 }
