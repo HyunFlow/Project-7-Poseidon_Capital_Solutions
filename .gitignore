@@ -2,3 +2,14 @@
 *.iml
 *.iws
 *.ipr
+.env
+**/.env
+Poseidon-skeleton/.env
+
+# Maven build
+**/target/
+
+# IntelliJ
+.idea/
+*.iml
+out/
