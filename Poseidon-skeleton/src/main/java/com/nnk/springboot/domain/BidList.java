@@ -1,74 +1,65 @@
 package com.nnk.springboot.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.*;
 import java.sql.Timestamp;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@RequiredArgsConstructor
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "Bidlist")
+@Table(name = "BidList")
 public class BidList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BidListId", nullable = false)
-    Integer bidListId;
+    @Column(name = "BidListId")
+    private Integer bidListId;
 
     @Column(name = "account", nullable = false)
-    String account;
+    private String account;
 
     @Column(name = "type", nullable = false)
-    String type;
+    private String type;
 
     @Column(name = "bidQuantity")
-    Double bidQuantity;
+    private Double bidQuantity;
     @Column(name = "askQuantity")
-    Double askQuantity;
+    private Double askQuantity;
     @Column(name = "bid")
-    Double bid;
+    private Double bid;
     @Column(name = "ask")
-    Double ask;
+    private Double ask;
     @Column(name = "benchmark")
-    String benchmark;
+    private String benchmark;
     @Column(name = "bidListDate")
-    Timestamp bidListDate;
+    private Timestamp bidListDate;
 
     @Column(name = "commentary")
-    String commentary;
+    private String commentary;
     @Column(name = "security")
-    String security;
+    private String security;
     @Column(name = "status")
-    String status;
+    private String status;
     @Column(name = "trader")
-    String trader;
+    private String trader;
     @Column(name = "book")
-    String book;
+    private String book;
     @Column(name = "creationName")
-    String creationName;
+    private String creationName;
     @Column(name = "creationDate")
-    Timestamp creationDate;
+    private Timestamp creationDate;
     @Column(name = "revisionName")
-    String revisionName;
+    private String revisionName;
     @Column(name = "revisionDate")
-    Timestamp revisionDate;
+    private Timestamp revisionDate;
     @Column(name = "dealName")
-    String dealName;
+    private String dealName;
     @Column(name = "dealType")
-    String dealType;
+    private String dealType;
     @Column(name = "sourceListId")
-    String sourceListId;
+    private String sourceListId;
     @Column(name = "side")
-    String side;
+    private String side;
 }

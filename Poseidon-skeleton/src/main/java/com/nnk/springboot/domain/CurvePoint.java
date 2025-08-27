@@ -6,33 +6,33 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.Length;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
+import lombok.Setter;
 
-@RequiredArgsConstructor
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "Curvepoint")
+@Table(name = "CurvePoint")
 public class CurvePoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id", nullable = false)
-    Integer id;
+    @Column(name = "Id")
+    private Integer id;
 
-    @NotBlank(message = "must not be null")
-    Integer curveId;
-
+    @Column(name = "CurveId", nullable = false)
+    private Integer curveId;
     @Column(name = "asOfDate")
-    Timestamp asOfDate;
+    private Timestamp asOfDate;
     @Column(name = "term")
-    Double term;
-    @Column(name = "value")
-    Double value;
+    private Double term;
+    @Column(name = "value_")
+    private Double value;
     @Column(name = "creationDate")
-    Timestamp creationDate;
+    private Timestamp creationDate;
 }
