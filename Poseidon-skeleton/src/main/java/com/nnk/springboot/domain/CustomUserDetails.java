@@ -20,8 +20,8 @@ public class CustomUserDetails implements UserDetails {
         return user.getId();
     }
 
-    public String getFullname() {
-        return user.getFullname();
+    public String getFullName() {
+        return user.getFullName();
     }
 
     @Override

@@ -32,24 +32,15 @@ public class User {
     @Column(name = "Id", nullable = false)
     private Integer id;
 
-    @NotBlank(message = "Username is mandatory")
     @Column(name = "username", length = 125)
     private String username;
 
-    @NotBlank(message = "Password is mandatory")
     @Column(name = "password", length = 125)
-    @Size(min = 8, max = 125, message = "Password must be between 8 and 125 characters")
-    @Pattern(
-        regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).*$",
-        message = "Password must contain at least one uppercase letter, one number, and one special character"
-    )
     private String password;
 
-    @NotBlank(message = "FullName is mandatory")
     @Column(name = "fullname", length = 125)
-    private String fullname;
+    private String fullName;
 
-    @NotBlank(message = "Role is mandatory")
     @Column(name = "role", length = 125)
     private String role;
 

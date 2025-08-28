@@ -17,7 +17,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         User admin = User.builder()
-            .fullname("Administrator")
+            .fullName("Administrator")
             .password(passwordEncoder.encode("admin1234"))
             .role("ADMIN")
             .username("admin")
@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
         userRepository.save(admin);
 
         User user = User.builder()
-            .fullname("User")
+            .fullName("User")
             .password(passwordEncoder.encode("user1234"))
             .role("USER")
             .username("user")
