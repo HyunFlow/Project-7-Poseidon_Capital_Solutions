@@ -16,6 +16,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Crée un nouvel utilisateur après validation :
+     * <ul>
+     *     <li>Vérifie que le nom d'utilisateur n'est pas déjà utilisé.</li>
+     *     <li>Encode le mot de passe avec {@link PasswordEncoder}.</li>
+     *     <li>Enregistre l'utilisateur en base de données.</li>
+     * </ul>
+     *
+     * @param request données de l’utilisateur (DTO)
+     * @throws IllegalArgumentException si le nom d'utilisateur est déjà pris
+     */
     @Transactional
     public void createUser(UserDto request) {
         if(userRepository.existsByUsername(request.getUsername())) {
@@ -31,6 +42,17 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     * Met à jour un utilisateur existant.
+     * <ul>
+     *     <li>Charge l'utilisateur par son ID.</li>
+     *     <li>Met à jour les informations et encode le nouveau mot de passe.</li>
+     * </ul>
+     *
+     * @param id identifiant de l’utilisateur
+     * @param request nouvelles données utilisateur
+     * @throws IllegalArgumentException si l'utilisateur n'existe pas
+     */
     @Transactional
     public void updateUser(Integer id, UserDto request) {
         User currentUser = userRepository.findById(id)
@@ -44,6 +66,12 @@ public class UserService {
         userRepository.save(currentUser);
     }
 
+    /**
+     * Supprime un utilisateur par son identifiant.
+     *
+     * @param id identifiant de l’utilisateur
+     * @throws IllegalArgumentException si l'utilisateur n'existe pas
+     */
     @Transactional
     public void deleteUser(Integer id) {
         if(!userRepository.existsById(id)) {
@@ -52,6 +80,14 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    /**
+     * Charge un utilisateur par son nom d’utilisateur.
+     * <br/>⚠️ Utilisé dans le cadre de l’authentification.
+     *
+     * @param username nom d’utilisateur
+     * @return données utilisateur (DTO)
+     * @throws UsernameNotFoundException si aucun utilisateur n’est trouvé
+     */
     public UserDto loadUserByUsername(String username) {
         User currentUser = userRepository.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -59,6 +95,13 @@ public class UserService {
         return getUserDto(currentUser);
     }
 
+    /**
+     * Charge un utilisateur par son identifiant.
+     *
+     * @param id identifiant de l’utilisateur
+     * @return données utilisateur (DTO)
+     * @throws IllegalArgumentException si l'utilisateur n'existe pas
+     */
     public UserDto loadUserById(Integer id) {
         User currentUser = userRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -66,6 +109,11 @@ public class UserService {
         return getUserDto(currentUser);
     }
 
+    /**
+     * Retourne la liste de tous les utilisateurs.
+     *
+     * @return liste des utilisateurs (DTOs)
+     */
     public List<UserDto> loadAllUsers() {
         return userRepository.findAll().stream()
             .map(this::getUserDto).toList();
