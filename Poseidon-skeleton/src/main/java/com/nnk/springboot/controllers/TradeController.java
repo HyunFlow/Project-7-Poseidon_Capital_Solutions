@@ -1,6 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.dto.TradeDto;
 import com.nnk.springboot.services.TradeService;
 import jakarta.validation.Valid;
