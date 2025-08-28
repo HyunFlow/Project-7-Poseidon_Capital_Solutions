@@ -113,7 +113,7 @@ public class CurveServiceTest {
     }
 
     @Test
-    void deleteCurvePoint_throws_whenNotExists() {
+    void deleteCurvePoint_throws_whenNotFound() {
         // when
         when(curvePointRepository.existsById(1)).thenReturn(false);
         assertThrows(IllegalArgumentException.class, () -> curveService.deleteCurvePoint(1));
