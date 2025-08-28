@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RequiredArgsConstructor
 @Controller
@@ -34,30 +35,44 @@ public class CurveController {
     }
 
     @PostMapping("/validate")
-    public String validate(@Valid @ModelAttribute("curvePoint") CurvePointDto request, BindingResult result) {
+    public String validate(@Valid @ModelAttribute("curvePoint") CurvePointDto request,
+        BindingResult result) {
         if (result.hasErrors()) {
             return "curvePoint/add";
         }
+        try {
             curveService.createCurvePoint(request);
-
+        } catch (IllegalArgumentException e) {
+            result.reject("globalError", e.getMessage());
+            return "curvePoint/add";
+        }
         return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("curvePoint", curveService.loadCurvePointById(id));
-        return "curvePoint/update";
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+        try {
+            model.addAttribute("curvePoint", curveService.loadCurvePointById(id));
+            return "curvePoint/update";
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("globalError", "CurvePoint not found");
+            return "redirect:/curvePoint/list";
+        }
     }
 
     @PostMapping("/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("curvePoint") CurvePointDto request,
+    public String updateBid(@PathVariable("id") Integer id,
+        @Valid @ModelAttribute("curvePoint") CurvePointDto request,
         BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "curvePoint/update";
         }
-
-        curveService.updateCurvePoint(id, request);
-
+        try {
+            curveService.updateCurvePoint(id, request);
+        }catch (IllegalArgumentException e) {
+            result.reject("globalError", e.getMessage());
+            return "curvePoint/update";
+        }
         return "redirect:/curvePoint/list";
     }
 

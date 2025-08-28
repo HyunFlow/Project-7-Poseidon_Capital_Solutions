@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RequiredArgsConstructor
 @Controller
@@ -38,14 +39,24 @@ public class TradeController {
         if (result.hasErrors()) {
             return "trade/add";
         }
-        tradeService.createTrade(request);
+        try{
+            tradeService.createTrade(request);
+        }catch (IllegalArgumentException e) {
+            result.reject("globalError", e.getMessage());
+            return "trade/add";
+        }
         return "redirect:/trade/list";
     }
 
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("trade", tradeService.loadTradeById(id));
-        return "trade/update";
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+        try {
+            model.addAttribute("trade", tradeService.loadTradeById(id));
+            return "trade/update";
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("globalError", "Trade not found");
+            return "redirect:/trade/list";
+        }
     }
 
     @PostMapping("/update/{id}")
@@ -54,7 +65,12 @@ public class TradeController {
         if(result.hasErrors()) {
             return "trade/update";
         }
-        tradeService.updateTrade(id, request);
+        try {
+            tradeService.updateTrade(id, request);
+        } catch (IllegalArgumentException e) {
+            result.reject("globalError", e.getMessage());
+            return "trade/update";
+        }
         return "redirect:/trade/list";
     }
 

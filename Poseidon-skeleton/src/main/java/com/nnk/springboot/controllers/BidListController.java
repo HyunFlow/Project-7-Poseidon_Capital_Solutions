@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -24,7 +24,6 @@ public class BidListController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        // TODO: call service find all bids to show to the view
         model.addAttribute("bids", bidListService.loadAllBidList());
 
         return "bidList/list";
@@ -38,27 +37,42 @@ public class BidListController {
 
     @PostMapping("/validate")
     public String validate(@Valid @ModelAttribute("bid") BidListDto request, BindingResult result) {
-
         if (result.hasErrors()) {
             return "bidList/add";
         }
-        bidListService.createBid(request);
+        try {
+            bidListService.createBid(request);
+        } catch (IllegalArgumentException e) {
+            result.reject("globalError", e.getMessage());
+            return "bidList/add";
+        }
         return "redirect:/bidList/list";
     }
 
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("bid", bidListService.loadBidById(id));
-        return "bidList/update";
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+        try {
+            model.addAttribute("bid", bidListService.loadBidById(id));
+            return "bidList/update";
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("globalError", "Bid not found");
+            return "redirect:/bidList/list";
+        }
     }
 
     @PostMapping("/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid @ModelAttribute("bid") BidListDto request,
+    public String updateBid(@PathVariable("id") Integer id,
+        @Valid @ModelAttribute("bid") BidListDto request,
         BindingResult result) {
         if (result.hasErrors()) {
             return "bidList/update";
         }
-        bidListService.updateBid(id, request);
+        try {
+            bidListService.updateBid(id, request);
+        } catch (IllegalArgumentException e) {
+            result.reject("globalError", e.getMessage());
+            return "bidList/update";
+        }
         return "redirect:/bidList/list";
     }
 
