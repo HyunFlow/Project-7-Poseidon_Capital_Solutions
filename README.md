@@ -1,7 +1,7 @@
 # spring-boot
 ## Technical:
 
-1. Spring Boot 3.1.0
+1. Spring Boot ~~3.1.0~~ -> **3.5.5**
 2. Java 17
 3. Thymeleaf
 4. Bootstrap v.4.3.1
